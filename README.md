@@ -4,11 +4,21 @@ Cadastro de Clientes, Serviços e Agendamentos
 
 Projeto desenvolvido em Django 3.1.5 e python 3.7.4
 
-Como Instalar python, virtualenv e o Django: Em Construção
+Como Instalar virtualenv e acessar a virtualenv?
+- pip install virtualenv;
+- Após a Instalação,crie a venv no seu projeto: 
+- python -m venv "nome da venv" (sem aspas);
 
-Instalando o Projeto com o Requeriments.txt: Em Construção
+Instalando o Django: 
+- Acesse a venv: c:\nomedoprojeto\"nomedavenve"\scripts\activate
+- para instalar o Django: pip install Django
 
-Apps de Terceiros: Em Construção
+Requeriments.txt: Em Construção
 
-Template: Em Construção
+Apps de Terceiros: - https://pypi.org/
+- easy_mask
+- widget_tweaks
+
+Template: 
+- AdminLte - https://adminlte.io/ 
 
