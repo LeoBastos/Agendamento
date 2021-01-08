@@ -67,9 +67,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ProjetoAgenda',
-        'USER': 'postgres',
-        'PASSWORD': 'qwaszx12',
+        'NAME': 'nome do banco de dados aqui',
+        'USER': 'seu usuario do banco de dados aqui',
+        'PASSWORD': 'sua senha aqui',
         'HOST': 'localhost'
     }
 }
