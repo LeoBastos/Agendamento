@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Agenda</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css'%}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css'%}">  
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css'%}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{% static 'dist/css/skins/_all-skins.min.css'%}">
+  <!-- Full Calendar -->
+  <link rel="stylesheet" href="{% static 'lib/main.css' %}">
+   <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+ 
+  
+ 
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  
+    {% include 'partials/_navbar.html' %}
+      
+    {% include 'partials/_sidebar.html' %}    
+    <div class="content-wrapper">
+     
+    {% block content %}
+    
+    {% endblock %}     
+     
+    
+  
+</div>
+      
+
+
+
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js'%}"></script>
+
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'bower_components/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js'%}"></script>
+<!-- Slimscroll -->
+<script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js'%}"></script>
+<!-- FastClick -->
+<script src="{% static 'bower_components/fastclick/lib/fastclick.js'%}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js'%}"></script>
+<script src="{% static 'lib/main.js' %}"></script>
+
+
+
+
+<script>
+  $(document).ready(function() {     
+      setTimeout(function() {
+          $('.alert').fadeOut('slow');
+      }, 3000);       
+  });
+</script>
+
+<script type="text/javascript">
+	$('.data').datepicker({
+    format: 'dd/mm/YY',
+    language: 'pt_BR',
+		startDate: '+0d',
+	});
+</script>
+</script>
+
+</body>
+
+</html>

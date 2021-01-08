@@ -1,0 +1,86 @@
+{% load static %}
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="{% static 'dist/img/semfoto.jpg'%}" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p>{{ user.username }}</p>
+        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+      </div>
+    </div>
+
+    <form action="{% url 'buscar' %}" class="sidebar-form">
+      <div class="input-group">
+        <input type="search" name="buscar" class="form-control" placeholder="Pesquisar...">
+        <span class="input-group-btn">
+              <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+      </div>
+    </form>
+
+
+    <ul class="sidebar-menu" data-widget="tree">
+      {% if user.is_authenticated %}
+      <li class="header">MAIN NAVIGATION</li>
+      <li>
+        <a href="{% url 'index' %}">
+          <i class="fa fa-th"></i> <span>Dashboard</span>          
+        </a>
+      </li>
+      {% if user.is_superuser %}
+      <li>
+        <a href="{% url 'admin:index' %}" target="_blank">
+          <i class="fa fa-tasks"></i><span>Admin</span>
+        </a>
+      </li>
+          {% endif %} 
+        
+      <li>
+        <a href="{% url 'agenda' %}">
+          <i class="fa fa-calendar"></i><span>Agenda</span>          
+        </a>
+      </li>
+
+      <li>
+          <a href="{% url 'cliente' %}">
+          <i class="fa fa-user-plus"></i><span>Cliente</span></a>
+      </li>
+
+      <li>
+          <a href="{% url 'servico' %}">
+              <i class="fa fa-pencil-square-o"></i><span>Serviço</span>
+          </a>
+      </li>
+     
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-edit"></i> <span>Construir</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
+          <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
+          <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+        </ul>
+      </li>
+      {% else %}
+      <li>
+        <a href="{% url 'login' %}">
+          <i class="fa fa-th"></i> <span>Fazer Login</span>          
+        </a>
+      </li>  
+      {% endif %}
+      
+      
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

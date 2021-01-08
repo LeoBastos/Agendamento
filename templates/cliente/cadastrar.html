@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load easy_mask %}
+{% block content %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Cadastrar Cliente
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Cadastrar Cliente</li>
+    </ol>
+</section>
+{% include 'partials/_alert.html' %}
+<!-- Main content -->
+<section class="content">
+    {% if user.is_authenticated %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-default" data-backdrop="static" data-keyboard="false">
+                        Cadastrar Cliente
+                    </button>
+                    <!--------------############### MODAL ############--------->
+                    <div class="modal fade" id="modal-default" style="display: none;">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">Preencha Todos os Campos</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'cadastrar' %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}                                        
+                                        <div class="form-row">                            
+                                            <div class="form-group col-md-6">
+                                                <label for="nome">Nome</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                    <input type="text" class="form-control form-control-sm" name="nome" value="{{ request.POST.nome }}" required>
+                                                </div>
+                                            </div>                                          
+                                            
+                                            <div class="form-group col-md-6">
+                                                <label for="cpf">CPF</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-id-card-o"></i></span>
+                                                    <input type="text" class="form-control form-control-sm" name="cpf" value="{{ request.POST.cpf }}" onkeypress="return isNumber(event)" required maxlength="11">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="email">Email</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                                    <input type="email" class="form-control form-control-sm" value="{{ request.POST.email }}" name="email" required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group col-md-6">
+                                                <label for="celular">Celular</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
+                                                    <input type="text" class="form-control form-control-sm" value="{{ request.POST.celular }}" name="celular" onkeypress="return isNumber(event)" maxlength="11" required>
+                                                </div>
+                                            </div>                                
+                                        </div>
+                                       
+                        
+                                      <div class="box-footer">
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-info btn-sm">Cadastrar</button>
+                                            <button type="reset" class="btn btn-warning btn-sm">Limpar</button>
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                data-dismiss="modal">Fechar</button>                                          
+        
+                                        </div>
+                                      </div>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <!--------------############### MODAL ############--------->
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>                                    
+                                    <th>Email</th>
+                                    <th>Celular</th>
+                                    <th>Cpf</th>
+                                    <th>Data de Cadastro</th>
+                                    <th>Editar</th>
+                                    <th>Data de Cadastro</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                                {%if clientes%}
+                                    {% for cliente in clientes %}
+                                <tr>
+                                    <td> <a href="{% url 'cliente' cliente.id %}"> {{ cliente.nome }}</a></td>                                    
+                                    <td>{{ cliente.email }}</td>
+                                    <td>{{ cliente.celular | phone}}</td>
+                                    <td>{{ cliente.cpf | cpf }}</td>
+                                    <td>{{ cliente.dataCadastro }}</td>
+                                    <td><a href="{% url 'editar' cliente.id %}">Editar</a></td>
+                                    <td><a href="{% url 'deletar' cliente.id %}">excluir</a></td>
+                                </tr>
+                            </tbody>
+                                    {% endfor %}                                
+                                
+                                {% endif %}
+
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">                    
+                        {% if clientes.has_other_pages %}
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            {% if clientes.has_previous %}
+                            <li class="page-item">
+                                <a href="?page={{ clientes.previous_page_number }}" class="page-link">&laquo;</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">&laquo;</a>
+                            </li>
+                            {% endif %}
+                            
+                            {% for pagina in clientes.paginator.page_range %}
+                                {% if clientes.number == pagina %}
+                            <li class="page-item active">
+                                <a class="page-link">{{ pagina }}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a href="?page={{pagina}}" class="page-link">{{pagina}}</a>
+                            </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if clientes.has_next %}
+                            <li class="page-item">
+                                <a href="?page={{ clientes.next_page_number }}" class="page-link">&raquo;</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">&raquo;</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        {% endif %}
+                </div>                
+            </div>
+        </div>
+
+    </div>
+    {% else %}
+    <a href="{% url 'login' %}">Fazer Login
+        {% endif %}
+        
+
+</section>
+</div>
+<script>
+    function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}

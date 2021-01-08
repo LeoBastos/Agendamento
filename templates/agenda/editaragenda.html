@@ -1,0 +1,116 @@
+{% load static %}
+{% load easy_mask %}
+{% block content %}
+<!-- Content Header (Page header) -->
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-backdrop="static"
+            data-keyboard="false">
+            <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Editar Agendamento</h4>
+    </div>
+    <form action="{% url 'update_agenda' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+            <input type="hidden" name="agendamento_id" value="{{agendamento.id}}">
+
+            <div class="form-group col-md-3">
+                <label for="servico">Serviço</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-heartbeat"></i></span>
+
+                    <select name="servico" class="form-control form-control-sm" id="servico">
+                        <option value="{{servico.id}}">{{agendamento.servico}}</option>
+                        {% for servico in servicos %}
+                        <option value="{{servico.id}}">{{servico.servico}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="data">Data</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="date" name="data" class="form-control form-control-sm" id="data"
+                        value="{{agendamento.data}}">
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="horario">Horário Inicial</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                    <input type="time" class="form-control form-control-sm" name="horainicial" id="horainicial"
+                        value="{{agendamento.horainicial}}">
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="horario">Horário Final</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                    <input type="time" class="form-control form-control-sm" name="horafinal" id="horafinal"
+                        value="{{agendamento.horafinal}}">
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="cliente">Cliente</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <select name="cliente" class="form-control form-control-sm" id="cliente">
+                        <option value="{{agendamento.cliente}}">{{ agendamento.cliente }}</option>
+                        {% for cliente in clientes %}
+                        <option value="{{cliente.nome}}">{{ cliente.nome }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="tipo">Tipo</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-address-card-o"></i></span>
+                    <select name="modelo" class="form-control form-control-sm" id="modelo">
+                        <option value="{{agendamento.modelo}}">{{agendamento.modelo}}</option>
+                        {% for modelo in modelos %}
+                        <option value="{{modelo.modelo}}">{{modelo.modelo}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="pagamento">Forma de Pagamento</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                    <select name="pagamento" class="form-control form-control-sm" id="pagamento">
+                        <option value="{{agendamento.pagamento}}">{{agendamento.pagamento}}</option>
+                        {% for pagamento in pagamentos %}
+                        <option value="{{pagamento.pagamento}}">{{pagamento.pagamento}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <br>
+        <div class="box-footer">
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-info btn-sm">Atualizar</button>
+            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"
+                onclick="javascript:window.location.reload()">Fechar</button>
+        </div>
+    </form>
+
+</section>
+</div>
+
+{% endblock %}

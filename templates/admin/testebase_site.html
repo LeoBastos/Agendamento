@@ -1,0 +1,12 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+<h1 id="head">
+    <img src="{% static 'dist/img/giphy.gif' %}" alt="" height="50" width="80" class="brand_img"> Bem Vindo Ao Painel Administrativo
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'dist/css/custom.css' %}">
+{% endblock %}

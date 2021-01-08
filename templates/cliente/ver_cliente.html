@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load easy_mask %}
+{% block content %}
+
+<section class="content-header">
+    <h1>
+        Cliente: {{ cliente.nome }}
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Cliente</li>
+    </ol>
+</section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-12">                    
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dados do Cliente</h3>
+    
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-footer padding">
+                        <div class="box-footer no-padding">                            
+                            <div class="form-group col-md-4">
+                                <label for="datacad">Data de Cadastro</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="datetime" class="form-control" readonly value="{{ cliente.dataCadastro }}">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="nome">Nome Completo</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input type="nome" class="form-control" readonly value="{{ cliente.nome }}">
+                                </div>
+                            </div>
+                                                        
+                            <div class="form-group col-md-4">
+                                <label for="email">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                    <input type="email" class="form-control" readonly value="{{ cliente.email }}">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group col-md-4">
+                                <label for="celular">Celular</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                    <input type="celular" class="form-control" readonly value="{{ cliente.celular | phone }}">
+                                </div>
+                            </div>
+    
+                            <div class="form-group col-md-4">
+                                <label for="cpf">Cpf</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-address-card-o"></i></span>
+                                    <input type="cpf" class="form-control" readonly value="{{ cliente.cpf | cpf }}">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="cpf">Status</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-check"></i></span>
+                                    <input type="status" class="form-control" readonly value="Ativo">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-info btn-sm"  onclick="history.go(-1);">Voltar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>  
+        </div>   
+        
+        
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Histórico de Consultas</h3>                        
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="box-footer padding">
+                        {% if cliente != cliente.cliente_id %}
+                            {% for cliente in agendamento %}                            
+                        <div class="box-footer no-padding">                            
+                            <div class="box box-success box-solid">
+                                <div class="box-header with-border">
+                                   
+                                    <h3 class="box-title"><td>{{ cliente.data | date:'d/m/Y' }} - {{ cliente.cliente.nome }}</td></h3>                
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>                              
+                                </div>
+                                
+                                <div class="box-body"> 
+                                    <p>Serviço: {{cliente.servico}} <td></td> </p> 
+                                    <p>Tipo: <td>{{ cliente.modelo }}</td></p>
+                                    <p>Forma de Pagamento: {{ cliente.pagamento }} </p>
+                                </div>                                                           
+                            </div>  
+
+                            {% endfor %}
+
+                        {% else %}
+                            <td>Sem Histórico de Agendamento Para este Cliente até Momento</td>
+                        {% endif %}
+                           
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        
+        
+            
+        
+    </section>
+</div>
+
+
+
+{% endblock %}

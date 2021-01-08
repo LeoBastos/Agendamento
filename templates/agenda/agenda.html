@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>Agenda</h1>
+    <br>
+<!--######################## MODAL DE CADASTRO DOS AGENDAMENTOS ########################################-->
+    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-agendamento" data-backdrop="static" data-keyboard="false">
+        Cadastrar Agendamento
+    </button>
+
+    <div class="modal fade" id="modal-agendamento"  style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-backdrop="static"
+                        data-keyboard="false">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Cadastrar Agendamento</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'cadastrar_agenda' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-row">
+
+
+                            <div class="form-group col-md-3">
+                                <label for="servico">Serviço</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-heartbeat"></i></span>
+
+                                    <select name="servico" class="form-control form-control-sm" id="servico" required>
+                                        {% for servico in servicos %}
+                                        <option value="{{servico.id}}">{{servico.servico}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="data">Data</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="date" class="form-control form-control-sm" name="data" id="data" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group col-md-3">
+                                <label for="horario">Horário Inicial</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    <input type="time" class="form-control form-control-sm" name="horainicial" id="horainicial" required>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="horario">Horário Final</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    <input type="time" class="form-control form-control-sm" name="horafinal" id="horafinal" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="cliente">Cliente</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <select name="cliente" class="form-control form-control-sm" id="cliente" required>
+                                        <option value="escolha" required>Escolha</option>
+                                        {% for cliente in clientes %}
+                                        <option value="{{cliente.nome}}" required>{{ cliente.nome }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="tipo">Tipo</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-address-card-o"></i></span>
+                                    <select name="modelo" class="form-control form-control-sm" id="modelo" required>
+                                        <option value="escolha">Escolha</option>
+                                        {% for modelo in modelos %}
+                                        <option value="{{modelo.modelo}}">{{modelo.modelo}}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="pagamento">Forma de Pagamento</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                    <select name="pagamento" class="form-control form-control-sm" id="pagamento" required>
+                                        <option value="escolha">Escolha</option>
+                                        {% for pagamento in pagamentos %}
+                                        <option value="{{pagamento.pagamento}}">{{pagamento.pagamento}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <br>
+                        <div class="box-footer">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-info btn-sm">Cadastrar</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"
+                                onclick="javascript:window.location.reload()">Fechar</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+   
+    <!--
+        <script type="text/javascript">
+        /*Select habilita/desabilita campo dependendo da forma de pagamento*/
+
+        const $select = document.getElementById('modelo')
+
+        function habilitacampos() {
+            if ($select.value == 'Plano de Saude') {
+                document.getElementById('pagamento').setAttribute('disabled', '');
+                document.getElementById('parcela').setAttribute('disabled', '');
+            } else {
+                document.getElementById('pagamento').removeAttribute('disabled', '');
+                document.getElementById('parcela').removeAttribute('disabled', '');
+            }
+        }
+
+        $select.addEventListener('input', habilitacampos)
+
+    </script>-->
+
+  
+
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Agenda</li>
+    </ol>
+</section>
+
+<!--######################## CONTENT ########################################-->
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Agendamentos</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Hora Inicial</th>
+                                    <th>Hora Final</th>
+                                    <th>Serviço</th>
+                                    <th>Nome</th>
+                                    <th>Modo</th>
+                                    <th>Pagamento</th>
+                                    <th>Ação</th>                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if agendamentos %}
+                                {% for agendamento in agendamentos %}
+                                <tr>
+                                    <td>{{ agendamento.data | date:'d/m/Y'}}</td>
+                                    <td>{{ agendamento.horainicial }}</td>
+                                    <td>{{ agendamento.horafinal }}</td>
+                                    <td>{{ agendamento.servico }}</td>
+                                    <td>{{ agendamento.cliente }}</td>
+                                    <td>{{ agendamento.modelo }}</td>
+                                    <td>{{ agendamento.pagamento}}</td>
+                                    <td><a href="{% url 'editaragenda' agendamento.id %}" data-toggle="modal"
+                                            data-target="#modal-editagenda" data-backdrop="static"
+                                            data-keyboard="false">
+                                            <button class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'deletaragenda' agendamento.id %}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button></a>
+                                </td>
+                                    </td>
+                                    <div class="modal fade" id="modal-editagenda" style="display: none;">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                    <h4 class="modal-title">Editar Agendamento</h4>
+                                                </div>
+                                                <form action="{% url 'update_agenda' %}" method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="form-row">
+                                                        <input type="hidden" name="agendamento_id" value="{{agendamento.id}}">    
+                            
+                                                        <div class="form-group col-md-4">
+                                                            <label for="servico">Serviço</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-heartbeat"></i></span>
+                            
+                                                                <select name="servico" class="form-control form-control-sm" id="servico">
+                                                                    <option value="{{servico.id}}">{{agendamento.servico}}</option>
+                                                                    {% for servico in servicos %}
+                                                                    <option value="{{servico.id}}">{{servico.servico}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="data">Data</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                <input type="date" name="data" class="form-control form-control-sm" id="data" value="{{agendamento.data}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label for="horario">Horário Inicial</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>                                                               
+                                                                <input type="time" class="form-control form-control-sm" name="horainicial" id="horainicial" value="{{agendamento.horainicial}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label for="horario">Horário Final</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                                                <input type="time" class="form-control form-control-sm" name="horafinal" id="horafinal" value="{{agendamento.horafinal}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-4">
+                                                            <label for="cliente">Cliente</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                                <select name="cliente" class="form-control form-control-sm" id="cliente">
+                                                                    <option value="{{agendamento.cliente}}">{{ agendamento.cliente }}</option>
+                                                                    {% for cliente in clientes %}
+                                                                    <option value="{{cliente.nome}}">{{ cliente.nome }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                            
+                                                            </div>
+                                                        </div>
+                            
+                                                        <div class="form-group col-md-4">
+                                                            <label for="tipo">Tipo</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                                                <select name="modelo" class="form-control form-control-sm" id="modelo">
+                                                                    <option value="{{agendamento.modelo}}">{{agendamento.modelo}}</option>
+                                                                    {% for modelo in modelos %}
+                                                                    <option value="{{modelo.modelo}}">{{modelo.modelo}}</option>
+                                                                    {% endfor %}
+                            
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                            
+                                                        <div class="form-group col-md-4">
+                                                            <label for="pagamento">Forma de Pagamento</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                                <select name="pagamento" class="form-control form-control-sm" id="pagamento">
+                                                                    <option value="{{agendamento.pagamento}}">{{agendamento.pagamento}}</option>
+                                                                    {% for pagamento in pagamentos %}
+                                                                    <option value="{{pagamento.pagamento}}">{{pagamento.pagamento}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                            
+                                                    <hr>
+                                                    <br>
+                                                    <div class="box-footer">
+                            
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-info btn-xs">Atualizar</button>
+                                                        <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal"
+                                                            onclick="javascript:window.location.reload()">Fechar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                           
+                                        </div>
+                                       
+                                    </div>
+
+                                   
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    {% if agendamentos.has_other_pages %}
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {% if agendamentos.has_previous %}
+                        <li class="page-item">
+                            <a href="?page={{ agendamentos.previous_page_number }}" class="page-link">&laquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&laquo;</a>
+                        </li>
+                        {% endif %}
+                        {% for pagina in agendamentos.paginator.page_range %}
+                        {% if agendamentos.number == pagina %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ pagina }}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a href="?page={{pagina}}" class="page-link">{{pagina}}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if agendamentos.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ agendamentos.next_page_number }}" class="page-link">&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+
+                </div>
+                <!-- /.box-footer -->
+            </div>
+        </div>
+
+    </div>
+</section>
+</div>
+
+
+{% endblock %}

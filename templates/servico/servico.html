@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="content-header">
+    <h1>
+        Serviços
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Serviços</li>
+    </ol>
+</section>
+{% include 'partials/_alert.html' %}
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-default" data-backdrop="static" data-keyboard="false">
+                        Cadastrar um Serviço
+                    </button>
+                    
+                    <div class="modal fade" id="modal-default" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">Cadastrar um Serviço</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'cadastrar_servico' %}" method="post"
+                                        enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <label for="servico">Serviço</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                            <input type="text" class="form-control form-control-sm" name="servico">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-info btn-sm">Cadastrar</button>
+                                            <button type="button" class="btn btn-warning btn-sm"
+                                                data-dismiss="modal" onclick="javascript:window.location.reload()">Fechar</button>                                        
+        
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                   
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i></button>
+                    </div>
+                </div>
+               
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Serviços Cadastrados</th>
+                                    <th>Ação</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%if servicos %}
+                                {% for servico in servicos %}
+                                <tr>
+                                    <td>{{ servico.id }}</td>
+                                    <td> <a href="#"> {{ servico.servico }}</a></td>
+                                    <td><a href="{% url 'editarserv' servico.id %}" data-toggle="modal"
+                                            data-target="#modal-edit" data-backdrop="static" data-keyboard="false"><button class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></button></a>
+                                            <a href="{% url 'deletarserv' servico.id %}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button></a>    
+                                    </td>
+                                    <div class="modal fade" id="modal-edit" style="display: none;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">Editar um Serviço</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'update_servico' %}" method="post"
+                                                        enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                            <input type="hidden" name="servico_id" value="{{servico.id}}">
+                                                                <label for="servico">Serviço</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                            <input type="text" class="form-control form-control-sm" name="servico" value="{{servico.servico}}">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-info btn-sm">Cadastrar</button>
+                                                            <button type="button" class="btn btn-warning btn-sm"
+                                                                data-dismiss="modal" onclick="javascript:window.location.reload()">Fechar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+
+                                    
+                                </tr>
+
+                            </tbody>
+                            {% endfor %}
+
+                            {% endif %}
+
+                        </table>
+                    </div>
+
+                </div>
+                     <div class="box-footer clearfix">
+                    {% if servicos.has_other_pages %}
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {% if servicos.has_previous %}
+                        <li class="page-item">
+                            <a href="?page={{ servicos.previous_page_number }}" class="page-link">&laquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&laquo;</a>
+                        </li>
+                        {% endif %}
+
+                        {% for pagina in servicos.paginator.page_range %}
+                        {% if servicos.number == pagina %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ pagina }}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a href="?page={{pagina}}" class="page-link">{{pagina}}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if servicos.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ servicos.next_page_number }}" class="page-link">&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+{% endblock %}
