@@ -12,7 +12,7 @@ Como Instalar virtualenv e acessar a virtualenv?
 - python -m venv "nome da venv" (sem aspas);
 
 Instalando o Django: 
-- Acesse a venv: c:\nomedoprojeto \"nomedavenve"\scripts\activate
+- Acesse a venv: c:\nomedoprojeto\ \"nomedavenve"\scripts\activate
 - para instalar o Django: pip install Django
 
 Requeriments.txt: EM CONSTRUNÇÃO
